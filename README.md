@@ -1,5 +1,11 @@
-<h1 align="center">Hi 👋, I'm Sabina Khan</h1>
-<h3 align="center">Computer Science Undergrad | Learning, Building, Growing</h3>
+<h1 align="center">Hi there, I'm Sabina! 🌷</h1>
+
+<p align="center">
+  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=24&duration=3000&pause=1000&color=FCA7DE&center=true&vCenter=true&width=435&lines=Full-Stack+Developer+%F0%9F%92%BB;Impactful+Designer+%F0%9F%92%8E;Open+Source+Contributor+%F0%9F%8C%9F;Lifelong+Learner+%F0%9F%93%9A" alt="Typing SVG" />
+</p>
+
+---
+
 
 <p align="left"> <a href="https://github.com/ryo-ma/github-profile-trophy"><img src="https://github-profile-trophy.vercel.app/?username=sabinakidzee-hue" alt="sabinakidzee-hue" /></a> </p>
 
@@ -29,3 +35,7 @@
 
 <p><img align="center" src="https://github-readme-streak-stats.herokuapp.com/?user=sabinakidzee-hue&" alt="sabinakidzee-hue" /></p>
 
+
+<p align="center">
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=F9C6D3&height=100&section=footer"/>
+</p>
