@@ -1,0 +1,3 @@
+export type SlotConfig={date:string;capacity:number;booked:number;holiday?:boolean;minimumPreparationDays:number;rushAvailable?:boolean};
+export function getAvailability(slot:SlotConfig, today=new Date()){const requested=new Date(`${slot.date}T00:00:00Z`);const min=new Date(Date.UTC(today.getUTCFullYear(),today.getUTCMonth(),today.getUTCDate()+slot.minimumPreparationDays));if(slot.holiday||requested<min||slot.booked>=slot.capacity)return 'FULLY BOOKED' as const; if(slot.capacity-slot.booked<=2)return 'LIMITED SLOTS' as const; return 'AVAILABLE' as const;}
+export function generateOrderId(sequence:number, date=new Date()){return `WLC-${date.getUTCFullYear()}-${String(sequence).padStart(5,'0')}`;}

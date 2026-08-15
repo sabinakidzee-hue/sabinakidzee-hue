@@ -1,0 +1,30 @@
+generator client { provider = "prisma-client-js" }
+datasource db { provider = "postgresql" url = env("DATABASE_URL") }
+enum Role { CUSTOMER ADMIN }
+enum PaymentState { PENDING PAID FAILED REFUNDED PARTIALLY_REFUNDED }
+enum OrderStatus { ORDER_PLACED PAYMENT_CONFIRMED ORDER_ACCEPTED IN_PRODUCTION QUALITY_CHECK PACKED SHIPPED OUT_FOR_DELIVERY DELIVERED CANCELLED }
+enum CustomOrderStatus { INQUIRY QUOTE_REQUIRED QUOTE_SENT CUSTOMER_APPROVED PAYMENT_PENDING PAID IN_PRODUCTION COMPLETED }
+model User { id String @id @default(cuid()) email String @unique name String? phone String? role Role @default(CUSTOMER) passwordHash String? orders Order[] wishlist Wishlist[] addresses Address[] createdAt DateTime @default(now()) }
+model Admin { id String @id @default(cuid()) userId String @unique user User @relation(fields:[userId],references:[id]) }
+model Customer { id String @id @default(cuid()) email String phone String name String orders Order[] @@unique([email,phone]) }
+model Category { id String @id @default(cuid()) name String @unique slug String @unique sortOrder Int @default(0) products Product[] }
+model Product { id String @id @default(cuid()) name String slug String @unique description String price Int originalPrice Int? hidden Boolean @default(false) customizable Boolean @default(false) isNew Boolean @default(false) isBestSeller Boolean @default(false) isLimitedEdition Boolean @default(false) productionDays Int @default(3) categoryId String category Category @relation(fields:[categoryId],references:[id]) variants ProductVariant[] inventory Inventory? reviews Review[] launchProducts LaunchProduct[] createdAt DateTime @default(now()) @@index([categoryId, hidden]) }
+model ProductVariant { id String @id @default(cuid()) productId String product Product @relation(fields:[productId],references:[id]) name String priceDelta Int @default(0) color String? size String? }
+model Inventory { id String @id @default(cuid()) productId String @unique product Product @relation(fields:[productId],references:[id]) unlimited Boolean @default(false) available Int @default(0) reserved Int @default(0) sold Int @default(0) lowStockThreshold Int? }
+model Cart { id String @id @default(cuid()) userId String? items CartItem[] couponId String? }
+model CartItem { id String @id @default(cuid()) cartId String cart Cart @relation(fields:[cartId],references:[id]) productId String? quantity Int customization Json? deliveryDate DateTime? }
+model Order { id String @id @default(cuid()) orderNumber String @unique userId String? user User? @relation(fields:[userId],references:[id]) customerId String customer Customer @relation(fields:[customerId],references:[id]) status OrderStatus @default(ORDER_PLACED) paymentState PaymentState @default(PENDING) requestedDeliveryDate DateTime? estimatedDeliveryDate DateTime? productionDate DateTime? items OrderItem[] payments Payment[] total Int notes String? createdAt DateTime @default(now()) @@index([orderNumber]) }
+model OrderItem { id String @id @default(cuid()) orderId String order Order @relation(fields:[orderId],references:[id]) productId String? name String quantity Int price Int customization Json? }
+model Payment { id String @id @default(cuid()) orderId String order Order @relation(fields:[orderId],references:[id]) provider String @default("razorpay") providerOrderId String? providerPaymentId String? state PaymentState @default(PENDING) amount Int signature String? }
+model Address { id String @id @default(cuid()) userId String user User @relation(fields:[userId],references:[id]) line1 String city String state String pincode String }
+model Wishlist { id String @id @default(cuid()) userId String user User @relation(fields:[userId],references:[id]) productId String @@unique([userId,productId]) }
+model Review { id String @id @default(cuid()) productId String product Product @relation(fields:[productId],references:[id]) rating Int body String photoUrl String? approved Boolean @default(false) verifiedPurchase Boolean @default(false) }
+model Coupon { id String @id @default(cuid()) code String @unique percentOff Int? flatOff Int? minOrderValue Int? expiresAt DateTime? usageLimit Int? }
+model CustomOrder { id String @id @default(cuid()) status CustomOrderStatus @default(INQUIRY) quotePrice Int? quoteExpiresAt DateTime? deliveryEstimate DateTime? requirements Json }
+model Customization { id String @id @default(cuid()) ownerType String ownerId String data Json }
+model Availability { id String @id @default(cuid()) date DateTime @unique capacity Int booked Int @default(0) holiday Boolean @default(false) rushAvailable Boolean @default(false) minimumPreparationDays Int @default(3) }
+model ProductionSlot { id String @id @default(cuid()) date DateTime workload Json capacity Int }
+model Launch { id String @id @default(cuid()) name String description String launchDate DateTime endDate DateTime bannerUrl String? products LaunchProduct[] }
+model LaunchProduct { launchId String productId String launch Launch @relation(fields:[launchId],references:[id]) product Product @relation(fields:[productId],references:[id]) limitedQuantity Int? @@id([launchId,productId]) }
+model ContactMessage { id String @id @default(cuid()) name String email String phone String? orderId String? message String createdAt DateTime @default(now()) }
+model Notification { id String @id @default(cuid()) event String channel String payload Json sentAt DateTime? }

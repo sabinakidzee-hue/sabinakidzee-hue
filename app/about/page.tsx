@@ -1,0 +1,1 @@
+export default function About(){return <main className="mx-auto max-w-4xl px-6 py-12"><h1 className="text-5xl font-black">About Lily</h1><p className="mt-5 text-lg">Whimsical Lily Co. is a tiny handmade studio for thoughtful gifts, soft colors and personal details — the kind of present that feels made especially for them.</p></main>}
