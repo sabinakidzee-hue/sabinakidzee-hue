@@ -1,0 +1,2 @@
+@tailwind base;@tailwind components;@tailwind utilities;
+:root{color-scheme:light} body{background:#fff8eb;color:#3b2830} .paper{background-image:radial-gradient(rgba(183,93,117,.12) 1px,transparent 1px);background-size:18px 18px}.float{animation:float 7s ease-in-out infinite}@keyframes float{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-14px) rotate(3deg)}}@media (prefers-reduced-motion:reduce){*,::before,::after{animation:none!important;transition:none!important}}

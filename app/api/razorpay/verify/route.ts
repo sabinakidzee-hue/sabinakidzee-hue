@@ -1,0 +1,3 @@
+import { NextResponse } from 'next/server';import { z } from 'zod';import { verifyRazorpaySignature } from '@/lib/payments';
+const schema=z.object({razorpay_order_id:z.string(),razorpay_payment_id:z.string(),razorpay_signature:z.string()});
+export async function POST(req:Request){const body=schema.safeParse(await req.json());if(!body.success)return NextResponse.json({paymentState:'FAILED'},{status:400});const ok=verifyRazorpaySignature(body.data.razorpay_order_id,body.data.razorpay_payment_id,body.data.razorpay_signature,process.env.RAZORPAY_KEY_SECRET||'');return NextResponse.json({paymentState:ok?'PAID':'FAILED'});}

@@ -1,0 +1,3 @@
+import { NextResponse } from 'next/server';import { z } from 'zod';import { generateOrderId } from '@/lib/availability';
+const schema=z.object({customer:z.object({name:z.string().min(2),email:z.string().email(),phone:z.string().min(8)}),items:z.array(z.object({slug:z.string(),quantity:z.number().int().positive()})).min(1),deliveryDate:z.string()});
+export async function POST(req:Request){const parsed=schema.safeParse(await req.json());if(!parsed.success)return NextResponse.json({error:'Oops — something went a little wonky.',issues:parsed.error.flatten()},{status:400});return NextResponse.json({orderId:generateOrderId(124),paymentState:'PENDING',message:'Your gift is ready for secure Razorpay payment.'});}

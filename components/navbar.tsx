@@ -1,0 +1,4 @@
+import Link from 'next/link';
+const nav=['HOME','SHOP','CUSTOM GIFTS','GIFT HAMPERS','NEW DROPS','ABOUT LILY','ORDER TRACKING'];
+const href=['/','/shop','/custom-gifts','/gift-hampers','/new-drops','/about','/track'];
+export function Navbar(){return <header className="sticky top-0 z-50 border-b border-white/60 bg-cream/80 backdrop-blur"><nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3"><Link href="/" className="font-serif text-2xl font-bold text-lily">Whimsical Lily Co.</Link><div className="hidden gap-5 text-xs font-bold tracking-widest lg:flex">{nav.map((n,i)=><Link key={n} href={href[i]}>{n}</Link>)}</div><div className="flex gap-3 text-sm"><Link href="/shop?search=1">Search</Link><Link href="/wishlist">Wishlist</Link><Link href="/cart">Cart</Link><Link href="/account">Account</Link><Link href="/admin" className="rounded-full bg-white px-3 py-1">Admin</Link></div></nav></header>}
